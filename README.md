@@ -1,2 +1,2 @@
 # docker-php
-Docker Image with Apache + PHP
+Docker Image with Apache + PHP + Postfix
