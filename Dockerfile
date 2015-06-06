@@ -1,7 +1,11 @@
-FROM ubuntu:14.04
+FROM mailserver
 
 RUN apt-get -yqq update
-RUN apt-get -yqq install apache2 libapache2-mod-php5 libapache2-mod-auth-mysql php5-mysql php5-sqlite curl php5-curl git vim
+RUN DEBIAN_FRONTEND=noninteractive apt-get -yqq install apache2 libapache2-mod-php5 libapache2-mod-auth-mysql php5-mysql php5-sqlite curl php5-curl git vim postfix
+RUN apt-get autoclean
+
+ADD postfix/main.cf /etc/postfix/main.cf
+ADD postfix/master.cf /etc/postfix/master.cf
 
 # Enable apache mods.
 RUN a2enmod php5
