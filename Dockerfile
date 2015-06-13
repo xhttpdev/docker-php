@@ -15,8 +15,10 @@ RUN sed -i "s/short_open_tag = Off/short_open_tag = On/" /etc/php5/apache2/php.i
 RUN sed -i "s/error_reporting = .*$/error_reporting = E_ALL/" /etc/php5/apache2/php.ini
 
 ADD app.conf /etc/apache2/sites-available/000-default.conf
-
 RUN a2ensite 000-default
+
+ADD ServerName.conf /etc/apache2/conf-available/ServerName.conf
+RUN a2enconf ServerName
 
 ENV APACHE_RUN_USER www-data
 ENV APACHE_RUN_GROUP www-data
