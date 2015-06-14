@@ -34,7 +34,7 @@ RUN curl -O http://pear.php.net/go-pear.phar
 RUN php -d detect_unicode=0 go-pear.phar
 # Install mongo extension
 RUN pecl install mongo
-RUN echo "extension=mongo.so" >> /etc/php5/apache2/php.ini
+RUN echo "extension=mongo.so" >> /etc/php5/cli/php.ini
 
 WORKDIR /var/www/html
 
