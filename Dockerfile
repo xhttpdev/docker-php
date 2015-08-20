@@ -39,8 +39,6 @@ RUN echo "extension=mongo.so" >> /etc/php5/apache2/php.ini
 
 WORKDIR /var/www/html
 
-VOLUME ["/var/www/html"]
-
 ADD launch.sh /launch
 
 EXPOSE 80
