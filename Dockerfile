@@ -1,7 +1,7 @@
 FROM ubuntu:14.04
 
 RUN apt-get -yqq update
-RUN DEBIAN_FRONTEND=noninteractive apt-get -yqq install apache2 libapache2-mod-php5 libapache2-mod-auth-mysql php5-mysql php5-sqlite curl php5-curl php5-dev git vim postfix
+RUN DEBIAN_FRONTEND=noninteractive apt-get -yqq install apache2 libapache2-mod-php5 libapache2-mod-auth-mysql php5-mysql php5-sqlite curl php5-curl php5-dev php5-intl git vim postfix
 RUN apt-get autoclean
 
 ADD postfix/main.cf /etc/postfix/main.cf
