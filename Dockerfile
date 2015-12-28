@@ -1,4 +1,4 @@
-FROM ubuntu:14.04
+FROM php:apache
 
 RUN apt-get -yqq update
 RUN DEBIAN_FRONTEND=noninteractive apt-get -yqq install apache2 libapache2-mod-php5 libapache2-mod-auth-mysql php5-mysql php5-sqlite curl php5-curl php5-dev php5-intl git vim postfix
@@ -7,12 +7,11 @@ RUN apt-get autoclean
 ADD postfix/main.cf /etc/postfix/main.cf
 ADD postfix/master.cf /etc/postfix/master.cf
 
-# Enable apache mods.
-RUN a2enmod php5
-RUN a2enmod rewrite
+RUN docker-php-ext-install mbstring
+RUN docker-php-ext-install zip
 
-RUN sed -i "s/short_open_tag = Off/short_open_tag = On/" /etc/php5/apache2/php.ini
-RUN sed -i "s/error_reporting = .*$/error_reporting = E_ALL/" /etc/php5/apache2/php.ini
+# Enable apache mods.
+RUN a2enmod rewrite
 
 ADD app.conf /etc/apache2/sites-available/000-default.conf
 RUN a2ensite 000-default
@@ -34,8 +33,6 @@ RUN curl -O http://pear.php.net/go-pear.phar
 RUN php -d detect_unicode=0 go-pear.phar
 # Install mongo extension
 RUN pecl install mongo
-RUN echo "extension=mongo.so" >> /etc/php5/cli/php.ini
-RUN echo "extension=mongo.so" >> /etc/php5/apache2/php.ini
 
 WORKDIR /var/www/html
 
