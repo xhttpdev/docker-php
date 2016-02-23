@@ -1,7 +1,7 @@
 FROM php:5.6-apache
 
 RUN apt-get -yqq update
-RUN DEBIAN_FRONTEND=noninteractive apt-get -yqq install curl git vim libsasl2-dev libxml2-dev zlib1g-dev php5-xdebug libssl-dev php5-redis php5-memcache
+RUN DEBIAN_FRONTEND=noninteractive apt-get -yqq install curl git vim libsasl2-dev libxml2-dev zlib1g-dev php5-xdebug libssl-dev php5-redis php5-memcache libicu-dev g++
 
 # ruby
 RUN DEBIAN_FRONTEND=noninteractive apt-get -yqq install ruby-full build-essential
@@ -11,12 +11,13 @@ RUN apt-get autoclean
 # compass
 RUN gem install compass
 
+ENV NODE_VERSION 4.3.1
+
 # npm
 RUN mkdir /nodejs
-RUN curl -Lks https://nodejs.org/dist/v4.2.4/node-v4.2.4-linux-x64.tar.gz -o /nodejs.tar.gz
+RUN curl -Lks "https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.gz" -o /nodejs.tar.gz
 RUN tar zxf /nodejs.tar.gz --strip=1 -C /nodejs
-RUN ln -s /nodejs/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm
-RUN ln -s /nodejs/bin/node /usr/local/bin/
+ENV PATH "$PATH:/nodejs/bin"
 
 # bower
 RUN npm install -g bower
@@ -33,6 +34,7 @@ RUN docker-php-ext-install mbstring
 RUN docker-php-ext-install zip
 RUN docker-php-ext-install soap
 RUN docker-php-ext-install ftp
+RUN docker-php-ext-install intl
 
 ADD app.conf /etc/apache2/sites-available/000-default.conf
 RUN a2ensite 000-default
@@ -41,7 +43,7 @@ RUN a2ensite 000-default
 RUN a2enmod rewrite
 
 # mongo db extension
-RUN pecl install mongodb
+RUN pecl install mongo
 
 # ini files
 ADD php.ini /usr/local/etc/php/
