@@ -35,6 +35,7 @@ RUN docker-php-ext-install zip
 RUN docker-php-ext-install soap
 RUN docker-php-ext-install ftp
 RUN docker-php-ext-install intl
+RUN docker-php-ext-install pdo_mysql
 
 ADD app.conf /etc/apache2/sites-available/000-default.conf
 RUN a2ensite 000-default
