@@ -1,7 +1,11 @@
-FROM php:5.6-apache
+FROM php:apache
 
 RUN apt-get -yqq update
-RUN DEBIAN_FRONTEND=noninteractive apt-get -yqq install curl git vim libsasl2-dev libxml2-dev zlib1g-dev php5-xdebug libssl-dev php5-redis php5-memcache libicu-dev g++
+RUN DEBIAN_FRONTEND=noninteractive apt-get -yqq install curl git nano libsasl2-dev libxml2-dev zlib1g-dev php5-xdebug libssl-dev libicu-dev g++ postfix
+ENV TERM=xterm
+
+ADD postfix/main.cf /etc/postfix/main.cf
+ADD postfix/master.cf /etc/postfix/master.cf
 
 # ruby
 RUN DEBIAN_FRONTEND=noninteractive apt-get -yqq install ruby-full build-essential
@@ -44,7 +48,7 @@ RUN a2ensite 000-default
 RUN a2enmod rewrite
 
 # mongo db extension
-RUN pecl install mongo
+RUN pecl install mongodb
 
 # ini files
 ADD php.ini /usr/local/etc/php/
@@ -67,4 +71,8 @@ RUN chown www-data:www-data /var/log/apache2/php.log
 
 WORKDIR /var/www/html
 
+ADD launch.sh /launch
+
 EXPOSE 80
+
+CMD [ "/launch" ]

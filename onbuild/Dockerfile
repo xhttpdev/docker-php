@@ -1,4 +1,4 @@
-FROM xhttpdev/docker-php:5.6
+FROM xhttpdev/docker-php:latest
 
 ONBUILD ADD . /var/www/html
 ONBUILD RUN chown -R www-data:www-data .
