@@ -1,4 +1,4 @@
-FROM php:apache
+FROM php:5.6-apache
 
 RUN apt-get -yqq update
 RUN DEBIAN_FRONTEND=noninteractive apt-get -yqq install curl git nano libsasl2-dev libxml2-dev zlib1g-dev php5-xdebug libssl-dev libicu-dev g++ postfix
