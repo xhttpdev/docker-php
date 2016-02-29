@@ -48,7 +48,7 @@ RUN a2ensite 000-default
 RUN a2enmod rewrite
 
 # mongo db extension
-RUN pecl install mongodb
+RUN pecl install mongo
 
 # ini files
 ADD php.ini /usr/local/etc/php/
